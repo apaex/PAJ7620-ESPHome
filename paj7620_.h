@@ -10,7 +10,6 @@ class PAJ7620 : public PollingComponent {
 	private:
 		const char* tag = "paj7620";
 	public:		
-	
 		Sensor *guesture_sensor = new Sensor();
 
 		PAJ7620() : PollingComponent(100) {}
@@ -19,7 +18,7 @@ class PAJ7620 : public PollingComponent {
 
 		void setup() override {
 			
-			uint8_t error = paj7620Init();			// initialize Paj7620 registers
+			uint8_t error = paj7620Init();
 			
 			if (error) 
 				ESP_LOGD(tag, "INIT ERROR, CODE: %d", error);
@@ -28,7 +27,7 @@ class PAJ7620 : public PollingComponent {
 		}
 
 		void update() override {
-			uint8_t data = 0; // Read Bank_0_Reg_0x43/0x44 for gesture result.
+			uint8_t data = 0;
 
 			uint8_t error = paj7620ReadReg(0x43, 1, &data);
 			if (error) {
@@ -37,8 +36,8 @@ class PAJ7620 : public PollingComponent {
 			}
 
 			if (data) {
-			   guesture_sensor->publish_state(data);
-  			   ESP_LOGD(tag, guestureToString(data));
+				guesture_sensor->publish_state(data);
+				ESP_LOGD(tag, guestureToString(data));
 			}
 		}
 		
@@ -48,11 +47,11 @@ class PAJ7620 : public PollingComponent {
 			switch (guesture) {
 				case GES_UP_FLAG: 		return "GES_UP_FLAG";
 				case GES_DOWN_FLAG:		return "GES_DOWN_FLAG";
-				case GES_FORWARD_FLAG:	return "GES_FORWARD_FLAG";
-				case GES_BACKWARD_FLAG:	return "GES_BACKWARD_FLAG";
-				case GES_RIGHT_FLAG:	return "GES_RIGHT_FLAG";
+				case GES_FORWARD_FLAG:		return "GES_FORWARD_FLAG";
+				case GES_BACKWARD_FLAG:		return "GES_BACKWARD_FLAG";
+				case GES_RIGHT_FLAG:		return "GES_RIGHT_FLAG";
 				case GES_LEFT_FLAG:		return "GES_LEFT_FLAG";
-				case GES_CLOCKWISE_FLAG:		return "GES_CLOCKWISE_FLAG";
+				case GES_CLOCKWISE_FLAG:	return "GES_CLOCKWISE_FLAG";
 				case GES_COUNT_CLOCKWISE_FLAG: 	return "GES_COUNT_CLOCKWISE_FLAG";
 				default: return "";
 			}		
