@@ -31,5 +31,6 @@ sensor:
 lib_deps =Wire
 
 6. Ещё раз собрать. 
+7. Подключить всё, как в этой статье http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php
 
-Всё, можно махать руками.
+Всё, можно махать руками.)
