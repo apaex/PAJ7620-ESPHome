@@ -1,0 +1,41 @@
+esphome:
+  name: paj7620
+  platform: ESP8266
+  board: nodemcuv2
+  includes:
+    - paj7620_.h
+  libraries:
+    - "seeed-studio/Gesture PAJ7620"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: !secret ap_ssid
+    password: !secret ap_password
+
+captive_portal:
+
+logger:
+  level: DEBUG
+  esp8266_store_log_strings_in_flash: false
+
+api:
+  password: !secret api_password
+
+ota:
+  password: !secret ota_password
+
+web_server:
+  port: 80
+
+sensor:
+- platform: custom
+  lambda: |-
+    auto paj7620 = new esphome::paj7620::PAJ7620();
+    App.register_component(paj7620);
+    return {paj7620->guesture_sensor};
+
+  sensors:
+    name: "PAJ7620"
