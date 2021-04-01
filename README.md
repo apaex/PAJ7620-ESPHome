@@ -38,3 +38,30 @@ lib_deps =Wire
 ![Схема подключения](https://i2.wp.com/www.esp8266learning.com/wp-content/uploads/2018/09/esp8266-and-PAJ7620_bb.jpg?w=549 "Схема")
 
 Всё, можно махать руками.)
+
+
+## Пример автоматизации
+
+```yaml
+    - alias: paj7620-up
+      trigger:
+        - platform: state
+          entity_id: sensor.paj7620_2
+          to: 'up'      
+      condition:
+      action:
+        - service: switch.turn_on
+          entity_id:
+            - switch.sonoff_100118adc5
+
+    - alias: paj7620-down
+      trigger:
+        - platform: state
+          entity_id: sensor.paj7620_2
+          to: 'down'      
+      condition:
+      action:
+        - service: switch.turn_off
+          entity_id:
+            - switch.sonoff_100118adc5
+```			
