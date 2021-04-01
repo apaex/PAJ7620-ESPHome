@@ -14,13 +14,14 @@ esphome:
 3. Добавить в yaml-файл 
 
 ```yaml
-sensor:
+text_sensor:
 - platform: custom
   lambda: |-
     auto paj7620 = new esphome::paj7620::PAJ7620();
     App.register_component(paj7620);
     return {paj7620->guesture_sensor};
-  sensors:
+
+  text_sensors:
     name: "PAJ7620"
 ```
     
@@ -46,22 +47,22 @@ lib_deps =Wire
     - alias: paj7620-up
       trigger:
         - platform: state
-          entity_id: sensor.paj7620_2
+          entity_id: sensor.paj7620
           to: 'up'      
       condition:
       action:
         - service: switch.turn_on
           entity_id:
-            - switch.sonoff_100118adc5
+            - switch.xxxx
 
     - alias: paj7620-down
       trigger:
         - platform: state
-          entity_id: sensor.paj7620_2
+          entity_id: sensor.paj7620
           to: 'down'      
       condition:
       action:
         - service: switch.turn_off
           entity_id:
-            - switch.sonoff_100118adc5
+            - switch.xxxx
 ```			
