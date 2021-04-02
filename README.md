@@ -66,3 +66,16 @@ lib_deps =Wire
           entity_id:
             - switch.xxxx
 ```			
+
+## Множество состояний сенсора
+
+* left
+* right
+* up
+* down
+* forward
+* backward
+* clockwise
+* count_clockwise
+
+
