@@ -23,6 +23,7 @@ text_sensor:
 
   text_sensors:
     name: "PAJ7620"
+    icon: mdi:hand-left
 ```
     
 4. Попробовать собрать
