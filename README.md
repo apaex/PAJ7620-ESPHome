@@ -41,6 +41,17 @@ lib_deps =Wire
 Всё, можно махать руками.)
 
 
+## Множество состояний сенсора
+
+* left
+* right
+* up
+* down
+* forward
+* backward
+* clockwise
+* count_clockwise
+
 ## Пример автоматизации
 
 ```yaml
@@ -66,16 +77,5 @@ lib_deps =Wire
           entity_id:
             - switch.xxxx
 ```			
-
-## Множество состояний сенсора
-
-* left
-* right
-* up
-* down
-* forward
-* backward
-* clockwise
-* count_clockwise
 
 
