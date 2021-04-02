@@ -55,7 +55,7 @@ class PAJ7620 : public PollingComponent {
 				case GES_LEFT_FLAG:		return "left";
 				case GES_CLOCKWISE_FLAG:	return "clockwise";
 				case GES_COUNT_CLOCKWISE_FLAG: 	return "count_clockwise";
-				default: 				return "unknown";
+				default: 			return "unknown";
 			}		
 		}
 };
