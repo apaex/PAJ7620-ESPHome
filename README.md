@@ -26,16 +26,9 @@ text_sensor:
     icon: mdi:hand-left
 ```
     
-4. Попробовать собрать
-5. Зайти в создавшийся каталог paj7620\ и в файл platformio.ini добавить зависимость 
+4. Собрать
 
-```ini
-[common]
-lib_deps =Wire
-```
-
-6. Ещё раз собрать. 
-7. Подключить всё, как в [этой статье](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
+5. Подключить всё, как в [этой статье](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
 
 ![Схема подключения](https://i2.wp.com/www.esp8266learning.com/wp-content/uploads/2018/09/esp8266-and-PAJ7620_bb.jpg?w=549 "Схема")
 
