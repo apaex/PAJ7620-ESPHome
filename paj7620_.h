@@ -21,7 +21,7 @@ class PAJ7620 : public PollingComponent {
 			uint8_t error = paj7620Init();
 			
 			if (error) 
-				ESP_LOGD(tag, "Init ERROR, code: %d", error);
+				ESP_LOGE(tag, "Init ERROR, code: %d", error);
 			else
 				ESP_LOGD(tag, "Init OK");
 		}
@@ -31,7 +31,7 @@ class PAJ7620 : public PollingComponent {
 
 			uint8_t error = paj7620ReadReg(0x43, 1, &data);
 			if (error) {
-				ESP_LOGD(tag, "Read ERROR, code: %d", error);
+				ESP_LOGE(tag, "Read ERROR, code: %d", error);
 				return;
 			}
 
