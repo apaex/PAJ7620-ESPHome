@@ -8,6 +8,7 @@ esphome:
   includes:
     - paj7620_.h
   libraries:
+    - "Wire"
     - "seeed-studio/Gesture PAJ7620"
 ```
 
