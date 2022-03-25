@@ -39,7 +39,6 @@ class PAJ7620 : public PollingComponent {
 				const char* state = guestureToString(data);
 				
 				guesture_sensor->publish_state(state);
-				//ESP_LOGD(tag, state);
 			}
 		}
 		
