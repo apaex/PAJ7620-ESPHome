@@ -15,9 +15,9 @@ void PAJ7620::setup()
 	uint8_t error = paj7620Init();
 
 	if (error)
-		ESP_LOGE(tag, "Init ERROR, code: %d", error);
+		ESP_LOGE(TAG, "Init ERROR, code: %d", error);
 	else
-		ESP_LOGD(tag, "Init OK");
+		ESP_LOGD(TAG, "Init OK");
 }
 
 
@@ -26,7 +26,7 @@ void PAJ7620::update() {
 
 	uint8_t error = paj7620ReadReg(0x43, 1, &data);
 	if (error) {
-		ESP_LOGE(tag, "Read ERROR, code: %d", error);
+		ESP_LOGE(TAG, "Read ERROR, code: %d", error);
 		return;
 	}
 
@@ -34,7 +34,7 @@ void PAJ7620::update() {
 		const char* state = guestureToString(data);
 
 		guesture_sensor->publish_state(state);
-		//ESP_LOGD(tag, state);
+		//ESP_LOGD(TAG, state);
 	}
 }
 
