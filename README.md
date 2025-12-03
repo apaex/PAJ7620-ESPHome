@@ -6,10 +6,11 @@
 external_components:
   - source: github://apaex/PAJ7620-ESPHome
 
-sensor:
+text_sensor:
   - platform: paj7620
+    name: "My gesture sensor"
 ```
-    
+
 ### Подключите, как [здесь](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
 
 
@@ -37,7 +38,7 @@ sensor:
       trigger:
         - platform: state
           entity_id: sensor.paj7620
-          to: 'up'      
+          to: 'up'
       condition:
       action:
         - service: switch.turn_on
@@ -48,12 +49,12 @@ sensor:
       trigger:
         - platform: state
           entity_id: sensor.paj7620
-          to: 'down'      
+          to: 'down'
       condition:
       action:
         - service: switch.turn_off
           entity_id:
             - switch.xxxx
-```			
+```
 
 
