@@ -32,6 +32,9 @@
 #ifndef __PAJ7620_H__
 #define __PAJ7620_H__
 
+namespace esphome {
+namespace paj7620 {
+
 #define BIT(x)  1 << x
 
 // REGISTER DESCRIPTION
@@ -82,7 +85,7 @@
 
 typedef enum {
 	BANK0 = 0,
-	BANK1,		
+	BANK1,
 } bank_e;
 
 #define GES_RIGHT_FLAG				PAJ7620_VAL(1,0)
@@ -107,7 +110,7 @@ enum {
 	GES_CLOCKWISE_FLAG		 = BIT(6),
 	GES_COUNT_CLOCKWISE_FLAG = BIT(7),
 	//REGISTER 1
-	GES_WAVE_FLAG		= BIT(0),	
+	GES_WAVE_FLAG		= BIT(0),
 };
 */
 
@@ -120,5 +123,6 @@ uint8_t paj7620WriteReg(uint8_t addr, uint8_t cmd);
 uint8_t paj7620ReadReg(uint8_t addr, uint8_t qty, uint8_t data[]);
 void paj7620SelectBank(bank_e bank);
 
-
+}
+}
 #endif

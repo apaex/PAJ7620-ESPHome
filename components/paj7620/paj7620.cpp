@@ -30,7 +30,13 @@
  
 #include <Wire.h>
 #include "paj7620.h"
-#include <Arduino.h>
+#include <arduino.h>
+#include "esphome/core/log.h"
+
+namespace esphome {
+namespace paj7620 {
+
+const char *const TAG = "paj7620";
 
 // PAJ7620U2_20140305.asc
 /* Registers' initialization data */
@@ -257,72 +263,64 @@ unsigned char initRegisterArray[][2] = {	// Initial Gesture
 };
 
 
-/**************************************************************** 
+/****************************************************************
  * Function Name: paj7620WriteReg
  * Description:  PAJ7620 Write reg cmd
  * Parameters: addr:reg address; cmd:function data
  * Return: error code; success: return 0
-****************************************************************/ 
+****************************************************************/
 uint8_t paj7620WriteReg(uint8_t addr, uint8_t cmd)
 {
-	char i = 1;
-	Wire.beginTransmission(PAJ7620_ID);		// start transmission to device 
+	Wire.beginTransmission(PAJ7620_ID);		// start transmission to device
+
 	//write cmd
 	Wire.write(addr);						// send register address
 	Wire.write(cmd);						// send value to write
-    i = Wire.endTransmission();  		    // end transmission
-	if(0 != i)
-    {
-		Serial.print("Transmission error!!!\n");
-	}
-	return i;
+
+	uint8_t error = Wire.endTransmission();  		    // end transmission
+	if (error)
+		ESP_LOGE(TAG, "Transmission error");
+
+	return error;
 }
 
-/**************************************************************** 
+/****************************************************************
  * Function Name: paj7620ReadReg
  * Description:  PAJ7620 read reg data
  * Parameters: addr:reg address;
  *			   qty:number of data to read, addr continuously increase;
  *			   data[]:storage memory start address
  * Return: error code; success: return 0
-****************************************************************/ 
+****************************************************************/
 uint8_t paj7620ReadReg(uint8_t addr, uint8_t qty, uint8_t data[])
 {
-	uint8_t error;
 	Wire.beginTransmission(PAJ7620_ID);
-	Wire.write(addr);
-	error = Wire.endTransmission();
 
-	if(0 != error)
+	Wire.write(addr);
+
+	uint8_t error = Wire.endTransmission();
+	if (error)
     {
-		Serial.print("Transmission error!!!\n");
-		return error; //return error code
+		ESP_LOGE(TAG, "Transmission error");
+		return error;
 	}
-	
+
 	Wire.requestFrom((int)PAJ7620_ID, (int)qty);
 
-	while (Wire.available()) 
+	while (Wire.available())
 	{
 		*data = Wire.read();
-
-#ifdef debug    //debug
-    Serial.print("addr:");
-    Serial.print(addr++, HEX);
-    Serial.print("  data:");
-    Serial.println(*data, HEX);
-#endif
-
-	data++;
+		++data;
 	}
 	return 0;
 }
 
-/**************************************************************** 
+/****************************************************************
  * Function Name: paj7620SelectBank
  * Description:  PAJ7620 select register bank
  * Parameters: BANK0, BANK1
  * Return: none
-****************************************************************/ 
+****************************************************************/
 void paj7620SelectBank(bank_e bank)
 {
     switch(bank){
@@ -337,60 +335,52 @@ void paj7620SelectBank(bank_e bank)
 	}
 }
 
-/**************************************************************** 
+/****************************************************************
  * Function Name: paj7620Init
  * Description:  PAJ7620 REG INIT
  * Parameters: none
  * Return: error code; success: return 0
-****************************************************************/ 
-uint8_t paj7620Init(void) 
+****************************************************************/
+uint8_t paj7620Init(void)
 {
 	//Near_normal_mode_V5_6.15mm_121017 for 940nm
 	int i = 0;
 	uint8_t error;
 	uint8_t data0 = 0, data1 = 0;
 	//wakeup the sensor
-	delayMicroseconds(700);	//Wait 700us for PAJ7620U2 to stabilize	
-	
+	delayMicroseconds(700);	//Wait 700us for PAJ7620U2 to stabilize
+
 	Wire.begin();
-	
-	Serial.println("INIT SENSOR...");
+
+	ESP_LOGD(TAG, "Init sensor...");
 
 	paj7620SelectBank(BANK0);
 	paj7620SelectBank(BANK0);
 
 	error = paj7620ReadReg(0, 1, &data0);
 	if (error)
-	{
 		return error;
-	}
+
 	error = paj7620ReadReg(1, 1, &data1);
 	if (error)
-	{
 		return error;
-	}
-	Serial.print("Addr0 =");
-	Serial.print(data0 , HEX);
-	Serial.print(",  Addr1 =");
-	Serial.println(data1 , HEX);
 
-	if ( (data0 != 0x20 ) || (data1 != 0x76) )
-	{
+	//ESP_LOGD(TAG, "Addr0 = %X,  Addr1 = %X", data0, data1);
+
+	if ((data0 != 0x20 ) || (data1 != 0x76))
 		return 0xff;
-	}
-	if ( data0 == 0x20 )
-	{
-		Serial.println("wake-up finish.");
-	}
-	
-	for (i = 0; i < INIT_REG_ARRAY_SIZE; i++) 
-	{
+
+	if (data0 == 0x20)
+		ESP_LOGD(TAG, "Wake-up finish.");
+
+	for (i = 0; i < INIT_REG_ARRAY_SIZE; i++)
 		paj7620WriteReg(initRegisterArray[i][0], initRegisterArray[i][1]);
-	}
-	
+
 	paj7620SelectBank(BANK0);  //gesture flage reg in Bank0
-	
-	Serial.println("Paj7620 initialize register finished.");
+
+	ESP_LOGD(TAG, "Initialize register finished.");
 	return 0;
 }
 
+}
+}

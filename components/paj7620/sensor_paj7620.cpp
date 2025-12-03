@@ -6,7 +6,7 @@
 namespace esphome {
 namespace paj7620 {
 
-static const char *const TAG = "paj7620";
+const char *const TAG = "paj7620";
 
 PAJ7620::PAJ7620() : PollingComponent(100) {}
 
