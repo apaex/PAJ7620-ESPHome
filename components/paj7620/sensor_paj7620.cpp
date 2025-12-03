@@ -34,17 +34,9 @@ void PAJ7620::update() {
 		return;
 	}
 
-	if (data) {
-		const char* state = gestureToString(data);
-
-
-  		if (this->gesture_text_sensor_ != nullptr) {
-			this->gesture_text_sensor_->publish_state(state);
-  		}
-		else
-			ESP_LOGE(TAG, "Gesture sensor is NULL");
-		ESP_LOGD(TAG, "Get gesture: '%s'", state);
-	}
+	const char* state = gestureToString(data);
+	this->publish_state(state);
+	ESP_LOGD(TAG, "Get gesture: '%s'", state);
 }
 
 float PAJ7620::get_setup_priority() const { return setup_priority::DATA; }
@@ -55,7 +47,8 @@ void PAJ7620::dump_config() {
 	if (this->is_failed()) {
 		ESP_LOGE(TAG, ESP_LOG_MSG_COMM_FAIL);
 	}
-	LOG_TEXT_SENSOR("  ", "Gesture" , gesture_text_sensor_);
+	LOG_TEXT_SENSOR("  ", "PAJ7620" , this);
+  	LOG_UPDATE_INTERVAL(this);
 }
 
 const char* PAJ7620::gestureToString(uint8_t guesture)
