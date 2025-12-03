@@ -1,5 +1,7 @@
 # Подключаем датчик жестов PAJ7620 (GY-PAJ7620) в Home Assistant через ESPHome и ESP8266
 
+### Добавьте в yaml:
+
 ```yaml
 external_components:
   - source: github://apaex/PAJ7620-ESPHome
@@ -8,8 +10,9 @@ sensor:
   - platform: paj7620
 ```
     
-5. Подключить всё, как в [этой статье](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
+### Подключите, как здесь:
 
+[Статья](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
 ![Схема подключения](https://i2.wp.com/www.esp8266learning.com/wp-content/uploads/2018/09/esp8266-and-PAJ7620_bb.jpg?w=549 "Схема")
 
 Всё, можно махать руками.)
