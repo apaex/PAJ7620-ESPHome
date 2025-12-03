@@ -10,11 +10,7 @@ sensor:
   - platform: paj7620
 ```
     
-### Подключите, как здесь:
-
-[Статья](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php)
-
-### Схема подключения:
+### Подключите, как [здесь](http://www.esp8266learning.com/paj7620-gesture-sensor-and-esp8266.php):
 
 ![Схема подключения](https://i2.wp.com/www.esp8266learning.com/wp-content/uploads/2018/09/esp8266-and-PAJ7620_bb.jpg?w=549 "Схема")
 
