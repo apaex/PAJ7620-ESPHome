@@ -1,15 +1,16 @@
-import esphome.config_validation as cv
 import esphome.codegen as cg
+from esphome.components import i2c, text_sensor
+import esphome.config_validation as cv
 from esphome.const import (
     CONF_ID,
 )
 
 CODEOWNERS = ["@apaex"]
-DEPENDENCIES = [ ]
+#DEPENDENCIES = ["i2c"]
 AUTO_LOAD = [ "text_sensor" ]
-#MULTI_CONF = True
+CONF_GESTURE = "gesture"
 
-# C++ namespace
+
 ns = cg.esphome_ns.namespace("paj7620")
 PAJ7620 = ns.class_("PAJ7620", cg.PollingComponent)
 
@@ -18,19 +19,25 @@ CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(PAJ7620),
-#            cv.Optional(CONF_VOLTAGE): sensor.sensor_schema(
-#                UNIT_EMPTY, ICON_EMPTY, 0, DEVICE_CLASS_EMPTY
-#            )
+            cv.Optional(CONF_GESTURE): text_sensor.text_sensor_schema(
+                icon="mdi:hand-clap"
+            )
         }
     )
 
-    .extend(cv.polling_component_schema("60s"))
-#    .extend(cv.COMPONENT_SCHEMA)
+    .extend(cv.polling_component_schema("100ms"))
+#    .extend(i2c.i2c_device_schema(/*0x38*/))
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
+#    await i2c.register_i2c_device(var, config)
+
+    if gesture_config := config.get(CONF_GESTURE):
+        sens = await text_sensor.new_text_sensor(gesture_config)
+        cg.add(var.set_gesture_text_sensor(sens))
 
     cg.add_library("Wire", "*")
-    cg.add_library("seeed-studio/Grove Gesture", "1.0.0")
+
+

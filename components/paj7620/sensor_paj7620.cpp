@@ -1,7 +1,7 @@
 #include "sensor_paj7620.h"
-#include <arduino.h>
 #include "paj7620.h"
 #include "esphome/core/log.h"
+#include <cinttypes>
 
 namespace esphome {
 namespace paj7620 {
@@ -15,9 +15,13 @@ void PAJ7620::setup()
 	uint8_t error = paj7620Init();
 
 	if (error)
+	{
 		ESP_LOGE(TAG, "Init ERROR, code: %d", error);
-	else
-		ESP_LOGD(TAG, "Init OK");
+		this->mark_failed();
+		return;
+	}
+
+	ESP_LOGD(TAG, "Init OK");
 }
 
 
@@ -31,19 +35,30 @@ void PAJ7620::update() {
 	}
 
 	if (data) {
-		const char* state = guestureToString(data);
+		const char* state = gestureToString(data);
 
-		guesture_sensor->publish_state(state);
-		//ESP_LOGD(TAG, state);
+
+  		if (this->gesture_text_sensor_ != nullptr) {
+			this->gesture_text_sensor_->publish_state(state);
+  		}
+		else
+			ESP_LOGE(TAG, "Gesture sensor is NULL");
+		ESP_LOGD(TAG, "Get gesture: '%s'", state);
 	}
 }
 
+float PAJ7620::get_setup_priority() const { return setup_priority::DATA; }
+
 void PAJ7620::dump_config() {
     ESP_LOGCONFIG(TAG, "PAJ7620:");
-    //LOG_PIN("  Conf X:  ", this->conf_x_);
+//    LOG_I2C_DEVICE(this);
+	if (this->is_failed()) {
+		ESP_LOGE(TAG, ESP_LOG_MSG_COMM_FAIL);
+	}
+	LOG_TEXT_SENSOR("  ", "Gesture" , gesture_text_sensor_);
 }
 
-const char* PAJ7620::guestureToString(uint8_t guesture)
+const char* PAJ7620::gestureToString(uint8_t guesture)
 {
 	switch (guesture) {
 		case GES_UP_FLAG: 				return "up";
