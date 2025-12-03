@@ -34,9 +34,13 @@ void PAJ7620::update() {
 		return;
 	}
 
-	const char* state = gestureToString(data);
-	this->publish_state(state);
-	ESP_LOGD(TAG, "Get gesture: '%s'", state);
+	if (data == state_)
+		return;
+
+	state_ = data;
+	const char* text_state = gestureToString(state_);
+	this->publish_state(text_state);
+	ESP_LOGD(TAG, "Get gesture: '%s'", text_state);
 }
 
 float PAJ7620::get_setup_priority() const { return setup_priority::DATA; }
@@ -62,6 +66,7 @@ const char* PAJ7620::gestureToString(uint8_t guesture)
 		case GES_LEFT_FLAG:				return "left";
 		case GES_CLOCKWISE_FLAG:		return "clockwise";
 		case GES_COUNT_CLOCKWISE_FLAG: 	return "count_clockwise";
+		case 0: 						return "none";
 		default: 						return "unknown";
 	}
 }

@@ -8,7 +8,7 @@
 namespace esphome {
 namespace paj7620 {
 
-class PAJ7620 : public text_sensor::TextSensor, PollingComponent/*, public i2c::I2CDevice*/ {
+class PAJ7620 : public text_sensor::TextSensor, public PollingComponent/*, public i2c::I2CDevice*/ {
 	public:
 		PAJ7620();
 
@@ -20,6 +20,7 @@ class PAJ7620 : public text_sensor::TextSensor, PollingComponent/*, public i2c::
 
 	protected:
 		const char* gestureToString(uint8_t guesture);
+		uint8_t state_ = 0;
 };
 
 }}
