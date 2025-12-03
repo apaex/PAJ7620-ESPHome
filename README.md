@@ -14,6 +14,7 @@ sensor:
 
 ![Схема подключения](https://i2.wp.com/www.esp8266learning.com/wp-content/uploads/2018/09/esp8266-and-PAJ7620_bb.jpg?w=549 "Схема")
 
+
 Всё, можно махать руками.)
 
 
