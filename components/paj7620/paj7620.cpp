@@ -30,7 +30,7 @@
  
 #include <Wire.h>
 #include "paj7620.h"
-#include <arduino.h>
+#include <Arduino.h>
 #include "esphome/core/log.h"
 
 namespace esphome {
